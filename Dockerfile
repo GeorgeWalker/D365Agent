@@ -1,6 +1,6 @@
 # escape=`
 
-# D365 CE Build/Test Server v1.0
+# D365 CE Build/Test Server v1.1
 
 # Run with 2 processors and 2 GB of memory otherwise EasyRepro tests might not run
 
@@ -43,8 +43,6 @@ RUN Invoke-WebRequest -UseBasicParsing https://dotnetbinaries.blob.core.windows.
     Expand-Archive MSBuild.Microsoft.VisualStudio.Web.targets.zip -Force -DestinationPath """${Env:ProgramFiles(x86)}\Microsoft Visual Studio\2017\BuildTools\MSBuild\Microsoft\VisualStudio\v15.0"""; `
     Remove-Item -Force MSBuild.Microsoft.VisualStudio.Web.targets.zip
 
-ENV ROSLYN_COMPILER_LOCATION "C:\Program Files (x86)\Microsoft Visual Studio\2017\BuildTools\MSBuild\15.0\Bin\Roslyn"
-
 # Set PATH in one layer to keep image size down.
  RUN setx /M PATH $(${Env:PATH} `
     + """;${Env:ProgramFiles}\NuGet""" `
@@ -68,22 +66,19 @@ RUN mkdir C:\BuildAgent; `
     Expand-Archive agent.zip -DestinationPath c:\BuildAgent -Force; `
     Remove-Item -Force agent.zip
 
-# ENV VSTEST "C:\Program Files (x86)\Microsoft Visual Studio\2017\TestAgent\Common7\IDE\CommonExtensions\Microsoft\TestWindow"
-
 # Install PowerShell Modules
 RUN Install-PackageProvider -Name NuGet -MinimumVersion 2.8.5.201 -Force; `
-    Install-Module -Name Microsoft.Xrm.Data.Powershell -Force; `
-    Install-Module -Name Microsoft.Xrm.OnlineManagementAPI -Force; `
-    Install-Module -Name Az -Force
-    # TODO: Microsoft.PowerApps.Administration.POwerShell
+    Install-Module -Name Microsoft.Xrm.Data.Powershell -Force -AllowClobber; `
+    Install-Module -Name Microsoft.Xrm.OnlineManagementAPI -Force -AllowClobber; `
+    Install-Module -Name Az -Force -AllowClobber; `
+    Install-Module -Name Microsoft.PowerApps.Administration.PowerShell -Force -AllowClobber; `
+    Install-Module -Name Microsoft.PowerApps.PowerShell -Force -AllowClobber
 
 # Supress Windows error dialogs
 RUN Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Windows" -Name "ErrorMode" -Value 2; `
     Set-ItemProperty -Path """HKCU:\Software\Microsoft\Windows\Windows Error Reporting""" -Name "DontShowUI" -Value 1
 
 SHELL ["cmd", "/S", "/C"]
-
-# RUN NuGet install Microsoft.TestPlatform -Version 15.9.0 -Source https://api.nuget.org/v3/index.json -OutputDirectory C:\BuildAgent\_work\_temp\VsTest -NoCache -DirectDownload -NonInteractive
 
 # Chocolatey Install
 ENV ChocolateyUseWindowsCompression false

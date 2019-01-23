@@ -1,6 +1,6 @@
 # https://sigaostudios.com/azure-devops-build-and-release-agents-with-docker/
 
-# D365 CE Build/Test Server v1.0
+# D365 CE Build/Test Server v1.1
 
 $ErrorActionPreference = "Stop"
 $env:VSTS_ACCOUNT = "Azure DevOps instance name"
