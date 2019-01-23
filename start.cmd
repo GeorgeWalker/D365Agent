@@ -1,0 +1,1 @@
+PowerShell.exe -ExecutionPolicy ByPass .\start.ps1
