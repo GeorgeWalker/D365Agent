@@ -3,9 +3,11 @@
 # D365 CE Build/Test Server v1.1
 
 $ErrorActionPreference = "Stop"
-$env:VSTS_ACCOUNT = "Azure DevOps instance name"
-$env:VSTS_TOKEN = "Azure DevOps Personal Access Token"
-$env:VSTS_POOL = ""
+
+# set these environment variables in your container environment.
+#$env:VSTS_ACCOUNT = "Azure DevOps instance name"
+#$env:VSTS_TOKEN = "Azure DevOps Personal Access Token"
+#$env:VSTS_POOL = ""
 
 If ($env:VSTS_ACCOUNT -eq $null) {
     Write-Error "Missing VSTS_ACCOUNT environment variable"

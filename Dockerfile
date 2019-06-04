@@ -86,9 +86,14 @@ RUN @powershell -NoProfile -ExecutionPolicy Bypass -Command "iex ((New-Object Sy
 
 RUN choco config set cachelocation C:\chococache
 
+RUN choco install git.install `
+    --confirm `
+    --limit-output `
+    --timeout 216000 `
+    && rmdir /S /Q C:\chococache
+
 # Install Additional Packages
 RUN choco install `
-    git  `
     nodejs `
     azure-cli `
     --confirm `
