@@ -60,7 +60,7 @@ RUN @('4.0', '4.5.2', '4.6.2', '4.7.2') `
     }
 
 # Install Build Agent
-ENV VSTS_ACCOUNT_DOWNLOAD_URL "https://vstsagentpackage.azureedge.net/agent/2.148.2/vsts-agent-win-x64-2.148.2.zip"
+ENV VSTS_ACCOUNT_DOWNLOAD_URL "https://vstsagentpackage.azureedge.net/agent/2.150.3/vsts-agent-win-x64-2.150.3.zip"
 RUN mkdir C:\BuildAgent; `
     Invoke-WebRequest $Env:VSTS_ACCOUNT_DOWNLOAD_URL -OutFile agent.zip; `
     Expand-Archive agent.zip -DestinationPath c:\BuildAgent -Force; `
